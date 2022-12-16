@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/db-test', function () {
+    if(DB::connection()->getDatabaseName())
+    {
+        echo "Connected to database ".DB::connection()->getDatabaseName();
+    }
 });
 
 Route::get('/profile/{slug}', [PageController::class, 'show']);
