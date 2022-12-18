@@ -23,7 +23,7 @@ enum SocialNetworkEnum: string
         return match ($this) {
             SocialNetworkEnum::Twitter      => ['https://twitter.com'],
             SocialNetworkEnum::Instagram    => ['https://instagram.com'],
-            SocialNetworkEnum::LinkedIn     => ['https://www.linkedin.com/in/', 'https://linkedin.com/in/'],
+            SocialNetworkEnum::LinkedIn     => ['https://www.linkedin.com/in/', 'https://linkedin.com/in/', 'https://www.linkedin.com/company/', 'https://linkedin.com/company/'],
             SocialNetworkEnum::Facebook     => ['https://www.facebook.com/'],
             SocialNetworkEnum::DevTo        => ['https://dev.to/'],
             SocialNetworkEnum::TikTok       => ['https://www.tiktok.com/', 'https://tiktok.com/@'],
