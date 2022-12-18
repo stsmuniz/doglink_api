@@ -19,7 +19,7 @@ class UserProfilePicturecontroller extends BaseController
 
         $request->image->move(public_path('profile_picture'), $imageName);
 
-        $user->profile_pic = url('/profile_picture/'.$imageName);
+        $user->profile_pic = url('/profile_picture/'.$imageName, [], true);
         $user->save();
 
         return $this->sendResponse(
