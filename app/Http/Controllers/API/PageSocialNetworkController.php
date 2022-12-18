@@ -20,7 +20,7 @@ class PageSocialNetworkController extends BaseController
 
         $validator  = Validator::make($input, [
             'type' => [new Enum((SocialNetworkEnum::class)), 'required'],
-            'url' => 'required|url|starts_with:' . $network->url(),
+            'url' => 'required|url|starts_with:' . implode(',', $network->url()),
             'order' => 'required|integer',
         ]);
 

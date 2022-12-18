@@ -14,20 +14,26 @@ enum SocialNetworkEnum: string
     case YouTube = 'YouTube';
     case Spotify = 'Spotify';
     case Steam = 'Steam';
+    case Pinterest = 'Pinterest';
+    case Dribble = 'Dribble';
+    case Soundcloud = 'Soundcloud';
 
-    public function url(): string
+    public function url(): array
     {
         return match ($this) {
-            SocialNetworkEnum::Twitter      => 'https://twitter.com',
-            SocialNetworkEnum::Instagram    => 'https://instagram.com',
-            SocialNetworkEnum::LinkedIn     => 'https://www.linkedin.com/in/',
-            SocialNetworkEnum::Facebook     => 'https://www.facebook.com/',
-            SocialNetworkEnum::DevTo        => 'https://dev.to/',
-            SocialNetworkEnum::TikTok       => 'https://www.tiktok.com/',
-            SocialNetworkEnum::Github       => 'https://github.com/',
-            SocialNetworkEnum::YouTube      => 'https://www.youtube.com/channel/',
-            SocialNetworkEnum::Spotify      => 'https://open.spotify.com/user/',
-            SocialNetworkEnum::Steam        => 'https://steamcommunity.com/id/',
+            SocialNetworkEnum::Twitter      => ['https://twitter.com'],
+            SocialNetworkEnum::Instagram    => ['https://instagram.com'],
+            SocialNetworkEnum::LinkedIn     => ['https://www.linkedin.com/in/', 'https://linkedin.com/in/'],
+            SocialNetworkEnum::Facebook     => ['https://www.facebook.com/'],
+            SocialNetworkEnum::DevTo        => ['https://dev.to/'],
+            SocialNetworkEnum::TikTok       => ['https://www.tiktok.com/', 'https://tiktok.com/@'],
+            SocialNetworkEnum::Github       => ['https://github.com/'],
+            SocialNetworkEnum::YouTube      => ['https://www.youtube.com/channel/', 'https://www.youtube.com/@', 'https://youtube.com/@'],
+            SocialNetworkEnum::Spotify      => ['https://open.spotify.com/user/'],
+            SocialNetworkEnum::Steam        => ['https://steamcommunity.com/id/'],
+            SocialNetworkEnum::Pinterest    => ['https://pinterest.com/'],
+            SocialNetworkEnum::Dribble      => ['https://dribbble.com/'],
+            SocialNetworkEnum::Dribble      => ['https://soundcloud.com/'],
         };
     }
 }
