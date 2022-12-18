@@ -9,4 +9,4 @@ php artisan route:cache
 
 php artisan view:cache
 
-php artisan migrate:refresh --force
+php artisan migrate --force
