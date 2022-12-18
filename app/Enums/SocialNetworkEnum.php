@@ -15,7 +15,7 @@ enum SocialNetworkEnum: string
     case Spotify = 'Spotify';
     case Steam = 'Steam';
     case Pinterest = 'Pinterest';
-    case Dribble = 'Dribble';
+    case Dribbble = 'Dribbble';
     case Soundcloud = 'Soundcloud';
 
     public function url(): array
@@ -32,8 +32,8 @@ enum SocialNetworkEnum: string
             SocialNetworkEnum::Spotify      => ['https://open.spotify.com/user/'],
             SocialNetworkEnum::Steam        => ['https://steamcommunity.com/id/'],
             SocialNetworkEnum::Pinterest    => ['https://pinterest.com/'],
-            SocialNetworkEnum::Dribble      => ['https://dribbble.com/'],
-            SocialNetworkEnum::Dribble      => ['https://soundcloud.com/'],
+            SocialNetworkEnum::Dribbble      => ['https://dribbble.com/'],
+            SocialNetworkEnum::Soundcloud      => ['https://soundcloud.com/'],
         };
     }
 }
