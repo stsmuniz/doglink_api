@@ -32,8 +32,8 @@ enum SocialNetworkEnum: string
             SocialNetworkEnum::Spotify      => ['https://open.spotify.com/user/'],
             SocialNetworkEnum::Steam        => ['https://steamcommunity.com/id/'],
             SocialNetworkEnum::Pinterest    => ['https://pinterest.com/'],
-            SocialNetworkEnum::Dribbble      => ['https://dribbble.com/'],
-            SocialNetworkEnum::Soundcloud      => ['https://soundcloud.com/'],
+            SocialNetworkEnum::Dribbble     => ['https://dribbble.com/'],
+            SocialNetworkEnum::Soundcloud   => ['https://soundcloud.com/'],
         };
     }
 }

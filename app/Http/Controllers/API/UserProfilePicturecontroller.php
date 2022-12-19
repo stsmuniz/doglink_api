@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfilePicturecontroller extends BaseController
 {
@@ -15,15 +16,23 @@ class UserProfilePicturecontroller extends BaseController
 
         $user = auth()->user();
 
-        $imageName = time().'.'.$request->image->extension();
 
-        $request->image->move(public_path('profile_picture'), $imageName);
+        try {
+            $imageName = time().'.'.$request->image->extension();
+            $filePath = 'images/' . $imageName;
 
-        $user->profile_pic = url('/profile_picture/'.$imageName, [], true);
+            Storage::disk('s3')->put($filePath, file_get_contents($request->image));
+            $path = Storage::disk('s3')->url($filePath);
+
+        } catch (\Exception $exception) {
+            return $this->sendError($exception->getMessage(), []);
+        }
+
+        $user->profile_pic = $path;
         $user->save();
 
         return $this->sendResponse(
-            ['image' =>  url('/profile_picture/'.$imageName)],
+            ['image' =>  $path],
             'Profile picture changed successfully'
         );
     }
