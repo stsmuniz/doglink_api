@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use Artesaos\Defender\Middlewares\NeedsPermissionMiddleware;
+use Artesaos\Defender\Middlewares\NeedsRoleMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,5 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'needsPermission' => NeedsPermissionMiddleware::class,
+        'needsRole' => NeedsRoleMiddleware::class
     ];
 }

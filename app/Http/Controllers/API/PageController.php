@@ -4,31 +4,29 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Resources\PageResource;
 use App\Models\Page;
+use App\Rules\IsSlug;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Validator;
 
 class PageController extends BaseController
 {
-    public function index()
+    public function index(): ResourceCollection
     {
-        return $this->sendResponse(
-            PageResource::collection(auth()->user()->pages),
-            'Pages retrieved successfully'
-        );
+        $this->middleware('needsRole:admin');
+        return PageResource::collection(Page::paginate(10));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): jsonResponse
     {
-        Validator::extend('slug', function($attribute, $value, $parameters, $validator) {
-            return preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $value);
-        });
-
+        $this->middleware('needsPermission:page.create');
         $input = $request->all();
 
-        $validator  = Validator::make($input, [
+        $validator = Validator::make($input, [
             'primary_color' => 'required',
             'secondary_color' => 'required',
-            'custom_url' => 'required|slug',
+            'custom_url' => ['required', new IsSlug],
         ]);
 
         if ($validator->fails()) {
@@ -46,45 +44,51 @@ class PageController extends BaseController
         return $this->sendResponse(new PageResource($page), 'Page created successfully');
     }
 
-    public function show(Page $page)
+    public function show(Page $page): jsonResponse
     {
         return $this->sendResponse(new PageResource($page), 'Page retrieved successfully');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): jsonResponse
     {
+        $this->middleware('needsPermission:page.edit');
+
         $input = $request->all();
 
-        $user = auth()->user();
-        $page = $user->pages()->findOrFail($id);
+        $page = Page::findOrFail($id);
 
         $page->update($input);
 
-        foreach ($input['social_networks'] as $index => $network) {
-            $page->socialNetworks()->findOrFail($network['id'])
-                ->update([
-                    'type' => $network['network'],
-                    'url' => $network['url'],
-                    'order' => $index
-                ]);
+        if (array_key_exists('social_networks', $input)) {
+            foreach ($input['social_networks'] as $index => $network) {
+                $page->socialNetworks()->findOrFail($network['id'])
+                    ->update([
+                        'type' => $network['network'],
+                        'url' => $network['url'],
+                        'order' => $index
+                    ]);
+            }
         }
 
-        foreach ($input['sections'] as $index => $section) {
-            $page->sections()->findOrFail($section['id'])
-                ->update([
-                    'type' => $section['type'],
-                    'data' => $section['data'],
-                    'order' => $index
-                ]);
+        if (array_key_exists('sections', $input)) {
+            foreach ($input['sections'] as $index => $section) {
+                $page->sections()->findOrFail($section['id'])
+                    ->update([
+                        'type' => $section['type'],
+                        'data' => $section['data'],
+                        'order' => $index
+                    ]);
+            }
         }
 
         return $this->sendResponse(new PageResource($page), 'Page updated successfully');
     }
 
-    public function destroy(Page $page)
+    public function destroy(Page $page): jsonResponse
     {
-        $page->delete();
+        $this->middleware('needsPermission:page.delete');
 
+        $page->delete();
         return $this->sendResponse([], 'Product deleted successfully');
     }
 }
